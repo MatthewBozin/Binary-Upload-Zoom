@@ -5,7 +5,7 @@ import Server from './server';
 async function run() {
   const server = new Server();
   await server.init();
-  server.start();
+  await server.start();
 }
 
 run();

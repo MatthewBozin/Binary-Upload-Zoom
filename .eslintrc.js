@@ -7,7 +7,7 @@ module.exports = {
   ],
   root: true,
   env: {
-    'node': true,
+    node: true,
   },
   rules: {
     semi: ['error', 'always'],
@@ -20,5 +20,7 @@ module.exports = {
     'prefer-const': 'error',
     '@typescript-eslint/no-explicit-any': 'error',
     '@typescript-eslint/no-unused-vars': 'error',
+    'quote-props': ['error', 'as-needed'],
+    'eol-last': ['error', 'always'],
   },
 };

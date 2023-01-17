@@ -35,3 +35,6 @@ jobs:
         uses: wearerequired/lint-action@v2
         with:
           eslint: true
+      
+      - name: Check types
+        run: npm run check-types
