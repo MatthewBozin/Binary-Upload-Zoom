@@ -8,7 +8,7 @@
     "lint-fix": "eslint . --fix",
     "ts-exec": "ts-node -r tsconfig-paths/register --project ./tsconfig.json --transpile-only",
     "dev": "concurrently \"npm run dev-mongo\" \"nodemon\" ",
-    "dev-mongo": "cd server && cd scripts && node dev-mongo"
+    "dev-mongo": "node server/scripts/dev-mongo"
   },
   "repository": {
     "type": "git",
