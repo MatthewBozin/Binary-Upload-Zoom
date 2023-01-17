@@ -22,5 +22,11 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'error',
     'quote-props': ['error', 'as-needed'],
     'eol-last': ['error', 'always'],
+    '@typescript-eslint/object-curly-spacing': ['error', 'always'],
+    'key-spacing': ['error', { afterColon: true }],
+    'space-infix-ops': 'error',
+    curly: 'error',
+    'object-curly-newline': 'error',
+    'brace-style': ['error', '1tbs'],
   },
 };
