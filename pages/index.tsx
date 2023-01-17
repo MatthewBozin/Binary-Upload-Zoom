@@ -1,8 +1,13 @@
+import Typography from '@mui/material/Typography';
 import React from 'react';
 
 const Index: React.FC = () => {
   return (
-    <div>index</div>
+    <>
+      <Typography>
+        Virtual Office Application
+      </Typography>
+    </>
   );
 };
 
