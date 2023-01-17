@@ -7,6 +7,7 @@
     "ts:exec": "ts-node -r tsconfig-paths/register --project ./tsconfig.json --transpile-only",
     "dev": "npm run dev:mongo && nodemon",
     "lint": "eslint .",
+    "lint-fix": "eslint . --fix",
     "dev:mongo": "npm run ts:exec server/scripts/dev-mongo"
   },
   "repository": {
