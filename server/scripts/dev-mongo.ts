@@ -1,7 +1,7 @@
-const path = require('path');
-require("dotenv").config({ path: path.join(__dirname, "../../.env") });
-const { MongoMemoryServer } = require('mongodb-memory-server');
-const fs = require('fs');
+import 'dotenv/config';
+import path from 'path';
+import { MongoMemoryServer } from 'mongodb-memory-server';
+import fs from 'fs';
 
 // This file runs the mongoDB server
 async function run() {
