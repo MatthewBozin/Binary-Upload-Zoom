@@ -3,7 +3,7 @@
     "target": "es6",
     "module": "commonjs",
     "moduleResolution": "node",
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
@@ -26,18 +26,14 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "paths": {
-      "server/*": [
-        "./server/*"
-      ],
-      "client/*": [
-        "./client/*"
-      ],
-    },
+      "server/*": ["server/*"],
+      "client/*": ["client/*"]
+    }
   },
   "include": [
-    "server/*",
-    "client/*",
-    "pages/*",
+    "server/**/*",
+    "client/**/*",
+    "pages/**/*"
   ],
   "exclude": [
     "node_modules"

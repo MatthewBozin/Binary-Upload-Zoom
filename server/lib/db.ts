@@ -9,8 +9,13 @@ interface Users extends Document {
 }
 
 // Database object modeling mongoDB data
-class Database {
+export class Database {
+  dbName: string;
   client = new MongoClient(process.env.DB_STRING);
+
+  constructor(dbName = 'virtual-office') {
+    this.dbName = dbName;
+  }
 
   // Connect to the mongoDB server
   async connect() {
@@ -19,7 +24,7 @@ class Database {
   }
 
   get db() {
-    return this.client.db('virtual-office');
+    return this.client.db(this.dbName);
   }
 
   get Users() {

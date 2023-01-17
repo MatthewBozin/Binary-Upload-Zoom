@@ -1,8 +1,8 @@
 import { AsyncRouter } from 'express-async-router';
-import testRouter from './test';
+import sampleRouter from './sample';
 
 const apiRouter = AsyncRouter();
 
-apiRouter.use('/test', testRouter);
+apiRouter.use('/sample', sampleRouter);
 
 export default apiRouter;
