@@ -35,7 +35,9 @@
     },
   },
   "include": [
-    "server/**/*.ts"
+    "server/*",
+    "client/*",
+    "pages/*",
   ],
   "exclude": [
     "node_modules"
