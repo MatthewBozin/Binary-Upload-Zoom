@@ -1,6 +1,6 @@
-import { RequestHandler } from 'express'
+import { RequestHandler } from 'express';
 
 export const test: RequestHandler = (req, res) => {
-  res.json({ message: 'This is a test!' })
-}
+  res.json({ message: 'This is a test!' });
+};
 

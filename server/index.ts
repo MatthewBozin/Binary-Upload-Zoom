@@ -1,11 +1,11 @@
-import "dotenv/config"
-import Server from './server'
+import 'dotenv/config';
+import Server from './server';
 
 // this code runs the express server
 async function run() {
-  const server = new Server()
-  await server.init()
-  server.start()
+  const server = new Server();
+  await server.init();
+  server.start();
 }
 
-run()
+run();

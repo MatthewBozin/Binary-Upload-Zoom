@@ -5,10 +5,10 @@ import fs from 'fs';
 
 // This file runs the mongoDB server
 async function run() {
-  const dbString = process.env.DB_STRING || ''
+  const dbString = process.env.DB_STRING || '';
   if (!dbString.includes('localhost') && !dbString.includes('127.0.0.1')) {
-    console.log('DB_STRING is not localhost, not running local mongo')
-    return
+    console.log('DB_STRING is not localhost, not running local mongo');
+    return;
   }
   const dbPath = path.join(__dirname, '../..', '.mongo');
 
@@ -30,4 +30,4 @@ async function run() {
   console.log(`Mongo server started on: ${uri}`);
 }
 
-run()
+run();
