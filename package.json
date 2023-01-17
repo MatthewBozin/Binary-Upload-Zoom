@@ -6,7 +6,8 @@
   "scripts": {
     "ts:exec": "ts-node -r tsconfig-paths/register --project ./tsconfig.json --transpile-only",
     "dev": "npm run dev:mongo && nodemon",
-    "dev:mongo": "node server/scripts/dev-mongo"
+    "lint": "eslint .",
+    "dev:mongo": "npm run ts:exec server/scripts/dev-mongo"
   },
   "repository": {
     "type": "git",
@@ -35,6 +36,9 @@
   "devDependencies": {
     "@types/node": "^18.11.18",
     "@types/react": "^17.0.52",
+    "@typescript-eslint/eslint-plugin": "^5.48.2",
+    "@typescript-eslint/parser": "^5.48.2",
+    "eslint": "^8.32.0",
     "nodemon": "^2.0.20",
     "ts-node": "^10.9.1"
   }
