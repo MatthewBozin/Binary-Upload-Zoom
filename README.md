@@ -1,5 +1,6 @@
 # 100Devs Virtual Office
 
+This is a Virtual Office application built by 100Devs for 100Devs.
 Discussion can be found on the [Discord Thread](https://discord.com/channels/735923219315425401/1060605220226334820).
 
 ## Planned Features
@@ -16,5 +17,7 @@ Discussion can be found on the [Discord Thread](https://discord.com/channels/735
 - Backend: NodeJS/Express
 - Cloud: AWS
 - Database: MongoDB
+
+## App Structure
 
 ![Structural Diagram](https://i.ibb.co/tMNJq0J/structure.jpg)
