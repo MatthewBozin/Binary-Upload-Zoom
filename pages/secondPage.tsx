@@ -1,11 +1,11 @@
 import React from 'react';
-import Custom from 'client/components/Custom';
+import Example from 'client/components/Example';
 
 const Something: React.FC = () => {
   return (
     <div>
-      <Custom />
-      keep names lowercase, don't get got
+      <Example />
+      This is the second page.
     </div>
   );
 };

@@ -1,14 +1,14 @@
 import React from 'react';
 import { Typography } from '@mui/material';
 
-const Custom: React.FC = () => {
+const Example: React.FC = () => {
   return (
     <div>
       <Typography>
-        Time to use some MUI
+        This is an example component.
       </Typography>
     </div>
   );
 };
 
-export default Custom;
+export default Example;
