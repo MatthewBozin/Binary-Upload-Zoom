@@ -15,8 +15,8 @@ permissions:
   contents: write
 
 jobs:
-  run-linters:
-    name: Run linters
+  run-ci:
+    name: Run Linting and Server Tests
     runs-on: ubuntu-latest
 
     steps:
