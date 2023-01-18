@@ -5,10 +5,10 @@ import Link from 'next/link';
 const Navbar: React.FC = () => {
   return (
     <>
-      <Button>
+      <Button variant='contained'>
         <Link href="/">Home</Link>
       </Button>
-      <Button>
+      <Button variant='contained'>
         <Link href="/secondPage">Second Page</Link>
       </Button>
     </>
