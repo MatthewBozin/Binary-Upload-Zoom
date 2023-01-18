@@ -38,4 +38,5 @@ jobs:
       
       - name: Run Server Tests
         run: npm run test-server
-        
+        env:
+          DB_STRING: ${{ secrets.DB_STRING }}
