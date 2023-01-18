@@ -15,4 +15,4 @@
 - Cloud: AWS
 - Database: MongoDB
 
-![Structural Diagram](https://ibb.co/99frbxr)
+![Structural Diagram](https://i.ibb.co/tMNJq0J/structure.jpg)
