@@ -38,3 +38,22 @@ jobs:
       
       - name: Check types
         run: npm run check-types
+  server-tests:
+    name: Run API Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Run Server Tests
+        run: npm run test-server
+        
