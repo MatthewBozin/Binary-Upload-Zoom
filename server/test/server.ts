@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { getPortPromise as getPort } from 'portfinder';
 import supertest from 'supertest';
+
 import { Database } from 'server/lib/db';
 import Server from 'server/server';
 

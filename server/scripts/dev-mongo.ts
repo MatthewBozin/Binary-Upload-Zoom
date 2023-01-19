@@ -1,7 +1,8 @@
 import 'dotenv/config';
-import path from 'path';
-import { MongoMemoryServer } from 'mongodb-memory-server';
 import fs from 'fs';
+import path from 'path';
+
+import { MongoMemoryServer } from 'mongodb-memory-server';
 
 // This file runs the mongoDB server
 async function run() {

@@ -1,11 +1,13 @@
+import { Server as HttpServer } from 'http';
+import { parse } from 'url';
+
 import express from 'express';
 import { NextServer } from 'next/dist/server/next';
-import { parse } from 'url';
-import { Server as HttpServer } from 'http';
-import { prepareNextApp } from './lib/next';
-import log from './lib/log';
-import Db, { Database } from './lib/db';
+
 import apiRouter from './api';
+import Db, { Database } from './lib/db';
+import log from './lib/log';
+import { prepareNextApp } from './lib/next';
 
 // Express + Next Server object
 class Server {

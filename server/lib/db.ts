@@ -1,4 +1,5 @@
 import { MongoClient, ObjectId } from 'mongodb';
+
 import log from './log';
 
 interface Users extends Document {

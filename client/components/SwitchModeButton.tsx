@@ -1,6 +1,6 @@
-import { Box, IconButton } from '@mui/material';
 import DarkIcon from '@mui/icons-material/Brightness4';
 import LightIcon from '@mui/icons-material/Brightness7';
+import { Box, IconButton } from '@mui/material';
 import React from 'react';
 
 import { useThemeState, useThemeDispatch, Theme } from 'client/contexts/theme';
