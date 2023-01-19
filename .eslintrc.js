@@ -13,7 +13,7 @@ module.exports = {
     semi: ['error', 'always'],
     'no-trailing-spaces': 'error',
     'no-extra-parens': 'error',
-    indent: ['error', 2],
+    indent: ['error', 2, { SwitchCase: 1 }],
     'comma-dangle': ['error', 'always-multiline'],
     quotes: ['error', 'single'],
     'max-len': ['warn', 120],
