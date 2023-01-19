@@ -1,6 +1,7 @@
-import React from 'react';
-import cloneDeep from 'lodash/cloneDeep';
 import { createTheme, ThemeProvider } from '@mui/material';
+import cloneDeep from 'lodash/cloneDeep';
+import React from 'react';
+
 import { darkTheme } from 'client/themes/dark';
 import { lightTheme } from 'client/themes/light';
 
@@ -58,7 +59,7 @@ const MuiThemeProvider: React.FC<Props> = ({ children }) => {
 
   const theme = React.useMemo(
     () => createTheme(state.theme === Theme.LIGHT ? lightTheme : darkTheme),
-    [state.theme]
+    [state.theme],
   );
 
   return (

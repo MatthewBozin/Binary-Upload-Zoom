@@ -1,8 +1,9 @@
 import { CssBaseline } from '@mui/material';
 import React from 'react';
-import Navbar from './Navbar';
 
 import { ThemeContextProvider } from 'client/contexts/theme';
+
+import Navbar from './Navbar';
 import SwitchModeButton from './SwitchModeButton';
 
 const Layout: React.FC = ({ children }) => {
