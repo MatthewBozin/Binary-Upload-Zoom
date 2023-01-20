@@ -9,6 +9,7 @@ import Db, { Database } from './lib/db';
 import log from './lib/log';
 import { prepareNextApp } from './lib/next';
 
+
 // Express + Next Server object
 class Server {
   app = express();
@@ -16,6 +17,11 @@ class Server {
   nextApp: NextServer;
   db: Database;
   server: HttpServer;
+
+  setMiddleWare() {
+    this.app.use(express.json());
+    this.app.use(express.urlencoded({ extended: true }));
+  }
 
   setApiRoutes() {
     this.app.use('/api', apiRouter);
@@ -36,6 +42,7 @@ class Server {
     ]);
     this.nextApp = results[0];
 
+    this.setMiddleWare();
     this.setApiRoutes();
     this.setNextRoutes();
   }
