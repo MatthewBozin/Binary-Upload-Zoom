@@ -6,10 +6,11 @@ import express from 'express';
 import { NextServer } from 'next/dist/server/next';
 
 import apiRouter from './api';
-import pageRouter from './api/page';
+import pageRouter, { PROTECTED_ROUTES } from './api/page';
 import Db, { Database } from './lib/db';
 import log from './lib/log';
 import { prepareNextApp } from './lib/next';
+import { isAuthed } from './middleware/isAuthed';
 
 
 // Express + Next Server object
@@ -38,6 +39,9 @@ class Server {
   }
 
   setPageRoutes() {
+    PROTECTED_ROUTES.forEach(route => {
+      this.app.use(route, isAuthed(true));
+    });
     this.app.use(pageRouter);
   }
 
