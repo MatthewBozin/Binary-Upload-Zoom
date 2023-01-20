@@ -6,6 +6,7 @@ import express from 'express';
 import { NextServer } from 'next/dist/server/next';
 
 import apiRouter from './api';
+import pageRouter from './api/page';
 import Db, { Database } from './lib/db';
 import log from './lib/log';
 import { prepareNextApp } from './lib/next';
@@ -36,6 +37,10 @@ class Server {
     });
   }
 
+  setPageRoutes() {
+    this.app.use(pageRouter);
+  }
+
   async init() {
     this.db = Db;
     const results = await Promise.all([ // Wait for everything in promise to be done
@@ -46,6 +51,7 @@ class Server {
 
     this.setMiddleWare();
     this.setApiRoutes();
+    this.setPageRoutes();
     this.setNextRoutes();
   }
 

@@ -9,6 +9,8 @@ const AuthRedirect: React.FC = () => {
     await axios.post('/api/auth/login', {
       code: router.query.code,
     });
+
+    router.push('protected');
   };
 
   React.useEffect(() => {
@@ -20,7 +22,5 @@ const AuthRedirect: React.FC = () => {
     <div>auth-redirect</div>
   );
 };
-
-//discord.com/oauth2/authorize?response_type=code&redirect_uri=http://localhost:2121/auth-redirect&scope=identify%20guilds&client_id=1065792338783383552
 
 export default AuthRedirect;
