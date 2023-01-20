@@ -1,7 +1,9 @@
 import { RequestHandler } from 'express';
+import jwt from 'jsonwebtoken';
 
 import { validateToken } from 'server/lib/auth';
 import { AUTH_COOKIE_NAME } from 'shared/constants';
+import { User } from 'shared/user';
 
 // isAuthed(true) returns a request handler that always redirects on bad tokens
 // isAuthed(false) returns a request handler that always 401s on bad tokens
@@ -18,6 +20,9 @@ export const isAuthed = (isPage = false): RequestHandler => (req, res, next) => 
     }
     return;
   }
+
+  const user = jwt.decode(token) as User;
+  req.user = user;
 
   next();
 };

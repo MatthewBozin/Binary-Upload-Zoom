@@ -3,6 +3,7 @@ import { RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
 
 import { AUTH_COOKIE_NAME } from 'shared/constants';
+import { User } from 'shared/user';
 
 export const login: RequestHandler<void, void, { code: string }> = async (req, res) => {
   const { code } = req.body;
@@ -37,7 +38,7 @@ export const login: RequestHandler<void, void, { code: string }> = async (req, r
 
   // todo: ensure guild matches 100devs guild ID
 
-  const payload = {
+  const payload: User = {
     id: user.id,
     username: user.username,
   };
