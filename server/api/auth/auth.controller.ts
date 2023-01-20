@@ -4,19 +4,24 @@ import jwt from 'jsonwebtoken';
 
 import { AUTH_COOKIE_NAME } from 'shared/constants';
 
-export const login: RequestHandler = async (req, res) => {
+export const login: RequestHandler<void, void, { code: string }> = async (req, res) => {
+  const { code } = req.body;
+
+  if (!code) {
+    res.sendStatus(400);
+    return;
+  }
+
   const oauth = new DiscordOauth2();
   let access_token: string;
   try {
     const response = await oauth.tokenRequest({
       clientId: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
-
-      code: req.body.code,
+      code,
       scope: 'identify guild',
       grantType: 'authorization_code',
-
-      redirectUri: 'http://localhost:2121/auth-redirect',
+      redirectUri: process.env.REDIRECT_URI,
     });
     access_token = response.access_token;
   } catch(error) {

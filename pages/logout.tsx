@@ -4,14 +4,13 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import Cookies from 'universal-cookie';
 
+import CenteredContainer from 'client/components/CenteredContainer';
 import { AUTH_COOKIE_NAME } from 'shared/constants';
 
 const cookies = new Cookies();
 
-const Container = styled('div')({
+const Container = styled(CenteredContainer)({
   marginTop: '40px',
-  display: 'flex',
-  justifyContent: 'center',
 });
 
 const Logout: React.FC = () => {
