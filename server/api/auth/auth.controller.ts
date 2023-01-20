@@ -1,5 +1,6 @@
 import DiscordOauth2 from 'discord-oauth2';
 import { RequestHandler } from 'express';
+import jwt from 'jsonwebtoken';
 
 export const login: RequestHandler = async (req, res) => {
   const oauth = new DiscordOauth2();
@@ -17,14 +18,26 @@ export const login: RequestHandler = async (req, res) => {
     });
     access_token = response.access_token;
   } catch(error) {
-    console.log(error);
+    console.log(error.response);
     throw error;
     //todo: handle this error
   }
 
-  const [user, guild] = await Promise.all([
+  const [user] = await Promise.all([
     oauth.getUser(access_token),
     oauth.getUserGuilds(access_token),
   ]);
-  res.json({ message: 'aaaaa' });
+
+  // todo: ensure guild matches 100devs guild ID
+
+  const payload = {
+    id: user.id,
+    username: user.username,
+  };
+
+  const token = jwt.sign(payload, process.env.AUTH_SECRET, { expiresIn: '7d' });
+
+  res.cookie('auth-token', token, { httpOnly: true });
+
+  res.sendStatus(200);
 };

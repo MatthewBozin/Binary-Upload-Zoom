@@ -1,6 +1,7 @@
 import { Server as HttpServer } from 'http';
 import { parse } from 'url';
 
+import cookieParser from 'cookie-parser';
 import express from 'express';
 import { NextServer } from 'next/dist/server/next';
 
@@ -21,6 +22,7 @@ class Server {
   setMiddleWare() {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(cookieParser());
   }
 
   setApiRoutes() {

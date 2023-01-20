@@ -4,15 +4,18 @@ import React from 'react';
 
 const AuthRedirect: React.FC = () => {
   const router = useRouter();
+
   const postLogin = async () => {
-    axios.post('/api/auth/login', {
+    await axios.post('/api/auth/login', {
       code: router.query.code,
     });
   };
+
   React.useEffect(() => {
     if (!router.query.code) return;
     postLogin();
   }, [router.query]);
+
   return (
     <div>auth-redirect</div>
   );
