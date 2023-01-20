@@ -2,6 +2,8 @@ import DiscordOauth2 from 'discord-oauth2';
 import { RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
 
+import { AUTH_COOKIE_NAME } from 'shared/constants';
+
 export const login: RequestHandler = async (req, res) => {
   const oauth = new DiscordOauth2();
   let access_token: string;
@@ -37,7 +39,7 @@ export const login: RequestHandler = async (req, res) => {
 
   const token = jwt.sign(payload, process.env.AUTH_SECRET, { expiresIn: '7d' });
 
-  res.cookie('auth-token', token, { httpOnly: true });
+  res.cookie(AUTH_COOKIE_NAME, token);
 
   res.sendStatus(200);
 };

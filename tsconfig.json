@@ -27,12 +27,14 @@
     "baseUrl": "./",
     "paths": {
       "server/*": ["server/*"],
-      "client/*": ["client/*"]
+      "client/*": ["client/*"],
+      "shared/*": ["shared/*"]
     }
   },
   "include": [
     "server/**/*",
     "client/**/*",
+    "shared/**/*",
     "pages/**/*"
   ],
   "exclude": [
