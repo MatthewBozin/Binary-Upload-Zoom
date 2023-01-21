@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken';
+
 import TestServer from 'server/test/server';
 import { AUTH_COOKIE_NAME } from 'shared/constants';
 import { User } from 'shared/user';
@@ -46,8 +48,13 @@ describe('auth router', () => {
       // the cookie value might have an `=` in it, so combine the rest
       const cookieValue = rest.join('=');
 
+      const cookiePayload = jwt.decode(cookieValue);
+
       expect(cookieName).toBe(AUTH_COOKIE_NAME);
-      expect(cookieValue).toBeTruthy();
+      // the cookie payload will contain extra things, so we just
+      // want to make sure that it contains the same fields as user
+      // using expect.objectContaining
+      expect(cookiePayload).toEqual(expect.objectContaining(user));
     });
   });
 });
