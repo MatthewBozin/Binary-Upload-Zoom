@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express';
+import { UnauthorizedError } from 'express-response-errors';
 import jwt from 'jsonwebtoken';
 
 import { validateToken } from 'server/lib/auth';
@@ -15,10 +16,10 @@ export const isAuthed = (isPage = false): RequestHandler => (req, res, next) => 
   if (!token || !validateToken(token)) {
     if (isPage) {
       res.redirect('/');
+      return;
     } else {
-      res.sendStatus(401);
+      throw new UnauthorizedError('You must be logged in to access this resource');
     }
-    return;
   }
 
   const user = jwt.decode(token) as User;

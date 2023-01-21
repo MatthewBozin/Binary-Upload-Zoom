@@ -10,8 +10,9 @@ class TestServer extends Server {
     this.db = new Database('test');
 
     await this.db.connect();
-    this.setMiddleWare();
+    this.setMiddleware();
     this.setApiRoutes();
+    this.setErrorHandler();
 
     const port = await getPort();
     this.server = this.app.listen(port);
