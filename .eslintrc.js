@@ -3,9 +3,15 @@ module.exports = {
     'plugin:import/recommended',
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
+  plugins: [
+    '@typescript-eslint',
+    'react',
+    'react-hooks',
+  ],
   ignorePatterns: ['.github'],
   root: true,
   env: {
@@ -39,6 +45,7 @@ module.exports = {
         alphabetize: { order: 'asc', caseInsensitive: true },
       },
     ],
+    'react/jsx-indent': ['error', 2],
   },
   settings: {
     'import/resolver': {

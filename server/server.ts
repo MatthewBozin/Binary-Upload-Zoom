@@ -3,6 +3,7 @@ import { parse } from 'url';
 
 import cookieParser from 'cookie-parser';
 import express from 'express';
+import { responseErrorHandler } from 'express-response-errors';
 import { NextServer } from 'next/dist/server/next';
 
 import apiRouter from './api';
@@ -21,7 +22,7 @@ class Server {
   db: Database;
   server: HttpServer;
 
-  setMiddleWare() {
+  setMiddleware() {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(cookieParser());
@@ -45,6 +46,10 @@ class Server {
     this.app.use(pageRouter);
   }
 
+  setErrorHandler() {
+    this.app.use(responseErrorHandler);
+  }
+
   async init() {
     this.db = Db;
     const results = await Promise.all([ // Wait for everything in promise to be done
@@ -53,10 +58,11 @@ class Server {
     ]);
     this.nextApp = results[0];
 
-    this.setMiddleWare();
+    this.setMiddleware();
     this.setApiRoutes();
     this.setPageRoutes();
     this.setNextRoutes();
+    this.setErrorHandler();
   }
 
   start() {
