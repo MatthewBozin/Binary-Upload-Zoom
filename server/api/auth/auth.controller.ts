@@ -1,7 +1,8 @@
-import DiscordOauth2 from 'discord-oauth2';
 import { RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
 
+import { getDiscordUserAndGuilds } from 'server/lib/auth';
+import log from 'server/lib/log';
 import { AUTH_COOKIE_NAME } from 'shared/constants';
 import { User } from 'shared/user';
 
@@ -13,28 +14,14 @@ export const login: RequestHandler<void, void, { code: string }> = async (req, r
     return;
   }
 
-  const oauth = new DiscordOauth2();
-  let access_token: string;
+  let user: User;
   try {
-    const response = await oauth.tokenRequest({
-      clientId: process.env.DISCORD_CLIENT_ID,
-      clientSecret: process.env.DISCORD_CLIENT_SECRET,
-      code,
-      scope: 'identify guild',
-      grantType: 'authorization_code',
-      redirectUri: process.env.REDIRECT_URI,
-    });
-    access_token = response.access_token;
-  } catch(error) {
-    console.log(error.response);
-    throw error;
-    //todo: handle this error
+    const info = await getDiscordUserAndGuilds(code);
+    user = info.user;
+  } catch (err) {
+    log('Errored when attempting to use discord OAuth', err);
+    return res.sendStatus(500);
   }
-
-  const [user] = await Promise.all([
-    oauth.getUser(access_token),
-    oauth.getUserGuilds(access_token),
-  ]);
 
   // todo: ensure guild matches 100devs guild ID
 

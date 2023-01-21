@@ -1,24 +1,10 @@
 import jwt from 'jsonwebtoken';
 import setCookie, { Cookie } from 'set-cookie-parser';
 
+import * as authLib from 'server/lib/auth';
 import TestServer from 'server/test/server';
 import { AUTH_COOKIE_NAME } from 'shared/constants';
 import { User } from 'shared/user';
-
-const user: User = {
-  id: '123',
-  username: 'username',
-};
-
-jest.mock('discord-oauth2', () => {
-  return jest.fn().mockImplementation(() => {
-    return {
-      tokenRequest: jest.fn().mockImplementation(async () => ({ access_token: 'abc' })),
-      getUser: jest.fn().mockImplementation(async () => user),
-      getUserGuilds: jest.fn().mockImplementation(async () => 'todo'),
-    };
-  });
-});
 
 describe('auth router', () => {
   let server: TestServer;
@@ -40,9 +26,21 @@ describe('auth router', () => {
     });
 
     it('should sign a token and set a cookie', async () => {
+      const user: User = {
+        id: '123',
+        username: 'username',
+      };
+      // @ts-expect-error User has the fields we need but doesnt satisfy discord user type reqs
+      const getInfoSpy = jest.spyOn(authLib, 'getDiscordUserAndGuilds').mockResolvedValueOnce({ user });
+
+      const code = 'some_valid_code';
       const res = await server.exec.post('/api/auth/login')
-        .send({ code: 'some_fake_code' });
+        .send({ code });
+
       expect(res.status).toBe(200);
+
+      // ensure the function was called with the code that we sent
+      expect(getInfoSpy.mock.calls[0][0] === code);
 
       const cookies: Cookie[] = res.headers['set-cookie']
         .map(setCookie.parse)
