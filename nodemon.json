@@ -1,5 +1,5 @@
 {
     "watch": ["server"],
     "ext": "ts",
-    "exec": "npm run ts-exec server/index.ts"
+    "exec": "npm run dev-server"
 }

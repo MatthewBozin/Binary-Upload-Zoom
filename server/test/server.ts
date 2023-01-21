@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import 'dotenv-flow/config';
 import { getPortPromise as getPort } from 'portfinder';
 import supertest from 'supertest';
 

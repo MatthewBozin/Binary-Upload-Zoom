@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import 'dotenv-flow/config';
 import Server from './server';
 
 // this code runs the express server

@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import 'dotenv-flow/config';
 import fs from 'fs';
 import path from 'path';
 
