@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import setCookie, { Cookie } from 'set-cookie-parser';
 
 import TestServer from 'server/test/server';
 import { AUTH_COOKIE_NAME } from 'shared/constants';
@@ -43,14 +44,13 @@ describe('auth router', () => {
         .send({ code: 'some_fake_code' });
       expect(res.status).toBe(200);
 
-      const cookie = res.headers['set-cookie'][0].split(';')[0];
-      const [cookieName, ...rest] = cookie.split('=');
-      // the cookie value might have an `=` in it, so combine the rest
-      const cookieValue = rest.join('=');
+      const cookies: Cookie[] = res.headers['set-cookie']
+        .map(setCookie.parse)
+        .map((arr: Cookie[]) => arr[0]);
+      const cookie = cookies.find(cookie => cookie.name === AUTH_COOKIE_NAME);
 
-      const cookiePayload = jwt.decode(cookieValue);
+      const cookiePayload = jwt.decode(cookie.value);
 
-      expect(cookieName).toBe(AUTH_COOKIE_NAME);
       // the cookie payload will contain extra things, so we just
       // want to make sure that it contains the same fields as user
       // using expect.objectContaining
