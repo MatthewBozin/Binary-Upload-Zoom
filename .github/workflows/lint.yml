@@ -15,8 +15,8 @@ permissions:
   contents: write
 
 jobs:
-  run-linters:
-    name: Run linters
+  run-ci:
+    name: Run Linting and Server Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -36,5 +36,7 @@ jobs:
         with:
           eslint: true
       
-      - name: Check types
-        run: npm run check-types
+      - name: Run Server Tests
+        run: npm run test-server
+        env:
+          DB_STRING: ${{ secrets.DB_STRING }}
