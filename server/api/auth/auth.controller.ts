@@ -1,5 +1,6 @@
 import DiscordOauth2 from 'discord-oauth2';
 import { RequestHandler } from 'express';
+import { BadRequestError } from 'express-response-errors';
 import jwt from 'jsonwebtoken';
 
 import { AUTH_COOKIE_NAME } from 'shared/constants';
@@ -9,8 +10,7 @@ export const login: RequestHandler<void, void, { code: string }> = async (req, r
   const { code } = req.body;
 
   if (!code) {
-    res.sendStatus(400);
-    return;
+    throw new BadRequestError('Code is required');
   }
 
   const oauth = new DiscordOauth2();
