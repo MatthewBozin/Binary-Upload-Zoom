@@ -6,9 +6,7 @@ module.exports = {
   ],
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
-  ignorePatterns: [
-    '.github',
-  ],
+  ignorePatterns: ['.github'],
   root: true,
   env: {
     node: true,
@@ -16,7 +14,6 @@ module.exports = {
   rules: {
     semi: ['error', 'always'],
     'no-trailing-spaces': 'error',
-    'no-extra-parens': 'error',
     indent: ['error', 2, { SwitchCase: 1 }],
     'comma-dangle': ['error', 'always-multiline'],
     quotes: ['error', 'single'],
