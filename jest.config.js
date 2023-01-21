@@ -18,8 +18,10 @@ module.exports = {
   },
   moduleNameMapper: {
     '^server/(.*)': '<rootDir>/server/$1',
+    '^shared/(.*)': '<rootDir>/shared/$1',
   },
   roots: [
     './server',
+    './shared',
   ],
 };

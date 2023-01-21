@@ -9,7 +9,8 @@
     "dev": "concurrently \"npm run dev-mongo\" \"nodemon\" ",
     "lint-fix": "eslint . --fix",
     "lint": "eslint .",
-    "test-server": "NODE_ENV=test npx jest ./server",
+    "test-server": "cross-env NODE_ENV=test npx jest ./server",
+    "test-watch": "cross-env NODE_ENV=test npx jest --watch",
     "ts-exec": "ts-node -r tsconfig-paths/register --project ./tsconfig.json --transpile-only"
   },
   "repository": {
@@ -57,6 +58,7 @@
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.48.2",
+    "cross-env": "^7.0.3",
     "eslint": "^8.32.0",
     "eslint-import-resolver-typescript": "^3.5.3",
     "eslint-plugin-import": "^2.27.5",
