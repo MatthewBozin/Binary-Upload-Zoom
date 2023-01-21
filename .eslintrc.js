@@ -45,6 +45,7 @@ module.exports = {
   },
   settings: {
     'import/resolver': {
+      typescript: true,
       node: {
         paths: ['./'],
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
