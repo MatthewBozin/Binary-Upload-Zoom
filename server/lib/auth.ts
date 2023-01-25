@@ -1,6 +1,8 @@
 import DiscordOauth2 from 'discord-oauth2';
 import jwt from 'jsonwebtoken';
 
+import { User } from 'shared/user';
+
 export function validateToken(token: string) {
   let valid;
   try {
@@ -30,4 +32,8 @@ export async function getDiscordUserAndGuilds(authCode: string) {
   ]);
 
   return { user, guilds };
+}
+
+export function createUserToken(user: User) {
+  return jwt.sign(user, process.env.AUTH_SECRET, { expiresIn: '7d' });
 }

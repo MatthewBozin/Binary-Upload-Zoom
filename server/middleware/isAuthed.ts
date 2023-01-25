@@ -1,9 +1,8 @@
 import { RequestHandler } from 'express';
-import { UnauthorizedError } from 'express-response-errors';
+import { ForbiddenError, UnauthorizedError } from 'express-response-errors';
 import jwt from 'jsonwebtoken';
 
 import { validateToken } from 'server/lib/auth';
-import Db from 'server/lib/db';
 import { AUTH_COOKIE_NAME } from 'shared/constants';
 import { User } from 'shared/user';
 
@@ -32,10 +31,10 @@ export const isAuthed = (isPage = false): RequestHandler => (req, res, next) => 
 //middleware for creating and deleting streams
 //checks if user's id is in list of allowed host ids in database
 export const isHost = (isPage = false): RequestHandler => async (req, res, next) => {
-  const user = req.user!;
+  const user = req.user;
 
-  const found = await Db.AllowedHosts.findOne({
-    discordId: user.id,
+  const found = await req.db.AllowedHosts.findOne({
+    discordId: user?.id,
   });
 
   if (!found) {
@@ -43,7 +42,7 @@ export const isHost = (isPage = false): RequestHandler => async (req, res, next)
       res.redirect('/');
       return;
     } else {
-      throw new UnauthorizedError('Only hosts can access this resource');
+      throw new ForbiddenError('Only hosts can access this resource');
     }
   }
 

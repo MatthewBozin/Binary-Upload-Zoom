@@ -2,12 +2,12 @@ import { MongoClient } from 'mongodb';
 
 import log from './log';
 
-interface AllowedHost extends Document {
+interface AllowedHost {
   discordId: string;
   username: string;
 }
 
-interface Stream extends Document {
+interface Stream {
   arn: string;
   createdBy: string;
 }
@@ -45,5 +45,3 @@ export class Database {
 const Db = new Database();
 
 export default Db;
-
-
