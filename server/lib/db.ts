@@ -1,12 +1,15 @@
-import { MongoClient, ObjectId } from 'mongodb';
+import { MongoClient } from 'mongodb';
 
 import log from './log';
 
-interface Users extends Document {
+interface AllowedHost extends Document {
   discordId: string;
   username: string;
-  createdAt: Date;
-  id?: ObjectId;
+}
+
+interface Stream extends Document {
+  arn: string;
+  createdBy: string;
 }
 
 // Database object modeling mongoDB data
@@ -28,8 +31,14 @@ export class Database {
     return this.client.db(this.dbName);
   }
 
-  get Users() {
-    return this.db.collection<Users>('users');
+  // collection name is 'allowed-hosts'
+  get AllowedHosts() {
+    return this.db.collection<AllowedHost>('allowed-hosts');
+  }
+
+  // collection name is 'streams'
+  get Streams() {
+    return this.db.collection<Stream>('streams');
   }
 }
 

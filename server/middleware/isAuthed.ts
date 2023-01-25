@@ -3,6 +3,7 @@ import { UnauthorizedError } from 'express-response-errors';
 import jwt from 'jsonwebtoken';
 
 import { validateToken } from 'server/lib/auth';
+import Db from 'server/lib/db';
 import { AUTH_COOKIE_NAME } from 'shared/constants';
 import { User } from 'shared/user';
 
@@ -24,6 +25,27 @@ export const isAuthed = (isPage = false): RequestHandler => (req, res, next) => 
 
   const user = jwt.decode(token) as User;
   req.user = user;
+
+  next();
+};
+
+//middleware for creating and deleting streams
+//checks if user's id is in list of allowed host ids in database
+export const isHost = (isPage = false): RequestHandler => async (req, res, next) => {
+  const user = req.user!;
+
+  const found = await Db.AllowedHosts.findOne({
+    discordId: user.id,
+  });
+
+  if (!found) {
+    if (isPage) {
+      res.redirect('/');
+      return;
+    } else {
+      throw new UnauthorizedError('Only hosts can access this resource');
+    }
+  }
 
   next();
 };
