@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/MatthewBozin/Virtual-Office#readme",
   "dependencies": {
+    "@aws-sdk/client-ivs": "^3.257.0",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.11.0",
