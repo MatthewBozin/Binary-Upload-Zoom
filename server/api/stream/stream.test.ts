@@ -94,7 +94,7 @@ describe('stream router', () => {
     it('should error if params is not an ObjectId', async () => {
       server.login(host);
       const res = await server.exec.delete('/api/stream/1234');
-      expect(res.status).toBe(500);
+      expect(res.status).toBe(400);
     });
 
     it('should return status 204, and delete the stream from the db', async () => {
