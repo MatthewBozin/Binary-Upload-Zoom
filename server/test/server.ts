@@ -2,15 +2,43 @@ import 'dotenv-flow/config';
 import { getPortPromise as getPort } from 'portfinder';
 import supertest from 'supertest';
 
+import { createUserToken } from 'server/lib/auth';
 import { Database } from 'server/lib/db';
 import Server from 'server/server';
+import { AUTH_COOKIE_NAME } from 'shared/constants';
+import { User } from 'shared/user';
 
 class TestServer extends Server {
-  async init() {
-    this.db = new Database('test');
+  loggedInUser: User | null;
+
+  async clearDb() {
+    await Promise.all([
+      this.db.AllowedHosts.deleteMany({}),
+      this.db.Streams.deleteMany({}),
+    ]);
+  }
+
+  async init(testName = 'default') {
+    this.db = new Database(`test-${testName}`);
 
     await this.db.connect();
+    await this.clearDb();
     this.setMiddleware();
+    this.setDatabaseOnReq();
+
+    this.app.use((req, res, next) => {
+      if (this.loggedInUser) {
+        //simulate logged in user by creating a jwt
+        const token = createUserToken(this.loggedInUser);
+        req.cookies[AUTH_COOKIE_NAME] = token;
+      } else {
+        //simulate non-logged-in user by making sure there is no jwt
+        res.clearCookie(AUTH_COOKIE_NAME);
+      }
+
+      next();
+    });
+
     this.setApiRoutes();
     this.setErrorHandler();
 
@@ -27,6 +55,14 @@ class TestServer extends Server {
     return new Promise<void>((resolve) => {
       this.server.close(() => resolve());
     });
+  }
+
+  login(user: User) {
+    this.loggedInUser = user;
+  }
+
+  logout() {
+    this.loggedInUser = null;
   }
 }
 

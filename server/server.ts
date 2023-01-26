@@ -50,6 +50,15 @@ class Server {
     this.app.use(responseErrorHandler);
   }
 
+  // attaches database to this specific server instance
+  // this way, test DBs are never confused with 'real' DBs
+  setDatabaseOnReq() {
+    this.app.use((req, res, next) => {
+      req.db = this.db;
+      next();
+    });
+  }
+
   async init() {
     this.db = Db;
     const results = await Promise.all([ // Wait for everything in promise to be done
@@ -59,6 +68,7 @@ class Server {
     this.nextApp = results[0];
 
     this.setMiddleware();
+    this.setDatabaseOnReq();
     this.setApiRoutes();
     this.setPageRoutes();
     this.setNextRoutes();

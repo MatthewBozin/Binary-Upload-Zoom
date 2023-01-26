@@ -1,8 +1,7 @@
 import { RequestHandler } from 'express';
 import { BadRequestError } from 'express-response-errors';
-import jwt from 'jsonwebtoken';
 
-import { getDiscordUserAndGuilds } from 'server/lib/auth';
+import { createUserToken, getDiscordUserAndGuilds } from 'server/lib/auth';
 import log from 'server/lib/log';
 import { AUTH_COOKIE_NAME } from 'shared/constants';
 import { User } from 'shared/user';
@@ -30,7 +29,7 @@ export const login: RequestHandler<void, void, { code: string }> = async (req, r
     username: user.username,
   };
 
-  const token = jwt.sign(payload, process.env.AUTH_SECRET, { expiresIn: '7d' });
+  const token = createUserToken(payload);
 
   res.cookie(AUTH_COOKIE_NAME, token);
 
