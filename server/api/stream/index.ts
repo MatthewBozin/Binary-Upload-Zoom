@@ -1,6 +1,7 @@
 import { AsyncRouter } from 'express-async-router';
 
 import { isAuthed, isHost } from 'server/middleware/isAuthed';
+import { validateMongoObjectId } from 'server/middleware/validateMongoObjectId';
 
 import { postStream, getStream, deleteStream } from './stream.controller';
 const streamRouter = AsyncRouter();
@@ -10,7 +11,7 @@ streamRouter.use(isAuthed());
 // just / is more restful because endpoint will look like: POST /api/stream/
 // (which is descriptive enough)
 streamRouter.post('/', isHost(), postStream);
-streamRouter.get('/', getStream);
-streamRouter.delete('/', isHost(), deleteStream);
+streamRouter.get('/:id', validateMongoObjectId('params', 'id'), getStream);
+streamRouter.delete('/:id', validateMongoObjectId('params', 'id'), isHost(), deleteStream);
 
 export default streamRouter;

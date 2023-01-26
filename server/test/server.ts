@@ -11,11 +11,18 @@ import { User } from 'shared/user';
 class TestServer extends Server {
   loggedInUser: User | null;
 
+  async clearDb() {
+    await Promise.all([
+      this.db.AllowedHosts.deleteMany({}),
+      this.db.Streams.deleteMany({}),
+    ]);
+  }
+
   async init(testName = 'default') {
     this.db = new Database(`test-${testName}`);
 
     await this.db.connect();
-    await this.db.db.dropDatabase();
+    await this.clearDb();
     this.setMiddleware();
     this.setDatabaseOnReq();
 
