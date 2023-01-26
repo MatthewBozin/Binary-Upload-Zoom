@@ -45,7 +45,7 @@ describe('auth router', () => {
       const cookies: Cookie[] = res.headers['set-cookie']
         .map(setCookie.parse)
         .map((arr: Cookie[]) => arr[0]);
-      const cookie = cookies.find(cookie => cookie.name === AUTH_COOKIE_NAME);
+      const cookie = cookies.find(cookie => cookie.name === AUTH_COOKIE_NAME && !!cookie.value);
 
       const cookiePayload = jwt.decode(cookie.value);
 
