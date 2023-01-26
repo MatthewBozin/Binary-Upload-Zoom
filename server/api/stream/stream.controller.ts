@@ -1,3 +1,4 @@
+import { ObjectId } from 'bson';
 import { RequestHandler } from 'express';
 import { NotFoundError } from 'express-response-errors';
 
@@ -20,17 +21,12 @@ export const postStream: RequestHandler = async (req, res) => {
 };
 
 export const getStream: RequestHandler = async (req, res) => {
-  try {
-    const stream = await req.db.Streams.findOne({ _id: req.params.id });
-    if (stream === null) {
-      throw new NotFoundError('No stream found for provided id.');
-    }
-    const info = await getStreamInfo(stream.arn);
-    res.json({ playbackUrl: info.channel.channel.playbackUrl });
-  } catch (err) {
-    console.log(err);
-    throw err;
+  const stream = await req.db.Streams.findOne({ _id: new ObjectId(req.params.id) });
+  if (stream === null) {
+    throw new NotFoundError('No stream found for provided id.');
   }
+  const info = await getStreamInfo(stream.arn);
+  res.json({ playbackUrl: info.channel.channel.playbackUrl });
 };
 
 export const deleteStream: RequestHandler = (req, res) => {

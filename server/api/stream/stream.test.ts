@@ -1,4 +1,5 @@
 import { CreateChannelCommandOutput, GetChannelCommandOutput, GetStreamKeyCommandOutput } from '@aws-sdk/client-ivs';
+import { ObjectId } from 'bson';
 
 import * as ivsLib from 'server/lib/ivs';
 import TestServer from 'server/test/server';
@@ -98,7 +99,7 @@ describe('stream router', () => {
 
     it ('should error if channel cannot be found', async () => {
       server.login(host);
-      const res = await server.exec.get('/api/stream/1234');
+      const res = await server.exec.get(`/api/stream/${new ObjectId()}`);
       expect(res.status).toBe(404);
     });
 
