@@ -97,6 +97,12 @@ describe('stream router', () => {
       expect(res.status).toBe(401);
     });
 
+    it ('should error if param is not an ObjectId', async () => {
+      server.login(host);
+      const res = await server.exec.get('/api/stream/1234');
+      expect(res.status).toBe(500);
+    });
+
     it ('should error if channel cannot be found', async () => {
       server.login(host);
       const res = await server.exec.get(`/api/stream/${new ObjectId()}`);
