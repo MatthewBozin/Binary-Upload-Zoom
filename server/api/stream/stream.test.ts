@@ -1,4 +1,5 @@
-import { CreateChannelCommandOutput } from '@aws-sdk/client-ivs';
+import { CreateChannelCommandOutput, GetChannelCommandOutput, GetStreamKeyCommandOutput } from '@aws-sdk/client-ivs';
+import { ObjectId } from 'bson';
 
 import * as ivsLib from 'server/lib/ivs';
 import TestServer from 'server/test/server';
@@ -25,6 +26,21 @@ describe('stream router', () => {
     streamKey: { value: 'sk_123' },
   } as CreateChannelCommandOutput;
 
+  const mockedGetStreamResponse = {
+    channel: {
+      channel: {
+        playbackUrl: 'arn_123',
+      },
+    } as GetChannelCommandOutput,
+    streamKey: {
+      streamKey: {
+        arn: 'arn_123',
+        value: 'stream_key_123',
+        channelArn: 'aaaaaa',
+      },
+    } as GetStreamKeyCommandOutput,
+  };
+
   beforeAll(async () => {
     server = new TestServer();
     await server.init('stream-api');
@@ -38,6 +54,7 @@ describe('stream router', () => {
     //hijacks startStream method in ivslib
     //and returns mockResolvedValue when it is called
     jest.spyOn(ivsLib, 'startStream').mockResolvedValue(mockedStartStreamResponse);
+    jest.spyOn(ivsLib, 'getStreamInfo').mockResolvedValue(mockedGetStreamResponse);
   });
 
   afterAll(async () => {
@@ -70,6 +87,38 @@ describe('stream router', () => {
       const stream = await server.db.Streams.findOne({ createdBy: host.id });
 
       expect(res.body.streamId).toEqual(String(stream._id));
+    });
+  });
+
+  describe('GET /', () => {
+    it('should error if not logged in', async () => {
+      server.logout();
+      const res = await server.exec.get('/api/stream/');
+      expect(res.status).toBe(401);
+    });
+
+    it ('should error if param is not an ObjectId', async () => {
+      server.login(host);
+      const res = await server.exec.get('/api/stream/1234');
+      expect(res.status).toBe(400);
+    });
+
+    it ('should error if channel cannot be found', async () => {
+      server.login(host);
+      const res = await server.exec.get(`/api/stream/${new ObjectId()}`);
+      expect(res.status).toBe(404);
+    });
+
+    it('should return the channel playbackUrl', async () => {
+      server.login(host);
+      const stream = await server.db.Streams.insertOne({
+        arn: '1234',
+        createdBy: 'Matt',
+      });
+      const res = await server.exec.get(`/api/stream/${stream.insertedId}`);
+
+      expect(res.status).toBe(200);
+      expect(res.body.playbackUrl).toBe(mockedGetStreamResponse.channel.channel.playbackUrl);
     });
   });
 });
