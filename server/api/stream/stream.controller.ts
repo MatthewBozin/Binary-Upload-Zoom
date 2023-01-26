@@ -1,8 +1,9 @@
 import { ObjectId } from 'bson';
 import { RequestHandler } from 'express';
-import { NotFoundError } from 'express-response-errors';
+import { ObjectId } from 'mongodb';
 
-import { getStreamInfo, startStream } from 'server/lib/ivs';
+import { getStreamInfo, endStream, startStream } from 'server/lib/ivs';
+import { NotFoundError } from 'express-response-errors';
 
 export const postStream: RequestHandler = async (req, res) => {
   const { channel, streamKey } = await startStream();
@@ -29,6 +30,11 @@ export const getStream: RequestHandler = async (req, res) => {
   res.json({ playbackUrl: info.channel.channel.playbackUrl });
 };
 
-export const deleteStream: RequestHandler = (req, res) => {
-  res.json({ message: 'This is a test!' });
+export const deleteStream: RequestHandler = async (req, res) => {
+  const stream = await req.db.Streams.findOne({ _id:  new ObjectId(req.params.id) });
+
+  await endStream(stream.arn);
+  await req.db.Streams.findOneAndDelete({ _id: new ObjectId(req.params.id) });
+
+  res.status(204);
 };
