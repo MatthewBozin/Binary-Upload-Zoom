@@ -1,4 +1,9 @@
-import { CreateChannelCommandOutput, DeleteChannelCommandOutput, GetChannelCommandOutput, GetStreamKeyCommandOutput } from '@aws-sdk/client-ivs';
+import {
+  CreateChannelCommandOutput,
+  DeleteChannelCommandOutput,
+  GetChannelCommandOutput,
+  GetStreamKeyCommandOutput,
+} from '@aws-sdk/client-ivs';
 import { ObjectId } from 'bson';
 
 import * as ivsLib from 'server/lib/ivs';
@@ -79,6 +84,18 @@ describe('stream router', () => {
       server.login(viewer);
       const res = await server.exec.post('/api/stream/');
       expect(res.status).toBe(403);
+    });
+
+    it('should error if the host already has a running stream', async () => {
+      server.login(host);
+
+      await server.db.Streams.insertOne({
+        arn: 'arn_123',
+        createdBy: host.id,
+      });
+
+      const res = await server.exec.post('/api/stream/');
+      expect(res.status).toBe(400);
     });
 
     it('should return the created channel arn, stream key, and create a db entry', async () => {
