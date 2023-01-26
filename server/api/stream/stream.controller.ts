@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
+import { ObjectId } from 'mongodb';
 
-import { startStream } from 'server/lib/ivs';
+import { endStream, startStream } from 'server/lib/ivs';
 
 export const postStream: RequestHandler = async (req, res) => {
   const { channel, streamKey } = await startStream();
@@ -22,6 +23,11 @@ export const getStream: RequestHandler = (req, res) => {
   res.json({ message: 'This is a test!' });
 };
 
-export const deleteStream: RequestHandler = (req, res) => {
-  res.json({ message: 'This is a test!' });
+export const deleteStream: RequestHandler = async (req, res) => {
+  const stream = await req.db.Streams.findOne({ _id:  new ObjectId(req.params.id) });
+
+  await endStream(stream.arn);
+  await req.db.Streams.findOneAndDelete({ _id: new ObjectId(req.params.id) });
+
+  res.status(204);
 };

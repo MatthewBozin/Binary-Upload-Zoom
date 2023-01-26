@@ -11,6 +11,6 @@ streamRouter.use(isAuthed());
 // (which is descriptive enough)
 streamRouter.post('/', isHost(), postStream);
 streamRouter.get('/', getStream);
-streamRouter.delete('/', isHost(), deleteStream);
+streamRouter.delete('/:id', isHost(), deleteStream);
 
 export default streamRouter;

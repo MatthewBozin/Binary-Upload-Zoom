@@ -1,4 +1,4 @@
-import { CreateChannelCommandOutput } from '@aws-sdk/client-ivs';
+import { CreateChannelCommandOutput, DeleteChannelCommandOutput } from '@aws-sdk/client-ivs';
 
 import * as ivsLib from 'server/lib/ivs';
 import TestServer from 'server/test/server';
@@ -28,16 +28,21 @@ describe('stream router', () => {
   beforeAll(async () => {
     server = new TestServer();
     await server.init('stream-api');
+
+    //hijacks startStream method in ivslib
+    //and returns mockResolvedValue when it is called
+    jest.spyOn(ivsLib, 'startStream').mockResolvedValue(mockedStartStreamResponse);
+    jest.spyOn(ivsLib, 'endStream').mockResolvedValue({} as DeleteChannelCommandOutput);
+  });
+
+  beforeEach(async () => {
+    await server.clearDb();
     //making sure there is a host in the db
     //since there is middleware checking if there is a host
     await server.db.AllowedHosts.insertOne({
       discordId: host.id,
       username: host.username,
     });
-
-    //hijacks startStream method in ivslib
-    //and returns mockResolvedValue when it is called
-    jest.spyOn(ivsLib, 'startStream').mockResolvedValue(mockedStartStreamResponse);
   });
 
   afterAll(async () => {
@@ -70,6 +75,40 @@ describe('stream router', () => {
       const stream = await server.db.Streams.findOne({ createdBy: host.id });
 
       expect(res.body.streamId).toEqual(String(stream._id));
+    });
+  });
+
+  describe('DELETE /', () => {
+    it('should error if not logged in', async () => {
+      server.logout();
+      const res = await server.exec.delete('/api/stream/');
+      expect(res.status).toBe(401);
+    });
+
+    it('should error if the user is not a host', async () => {
+      server.login(viewer);
+      const res = await server.exec.post('/api/stream');
+      expect(res.status).toBe(403);
+    });
+
+    it('should error if params is not an ObjectId', async () => {
+      server.login(host);
+      const res = await server.exec.delete('/api/stream/1234');
+      expect(res.status).toBe(500);
+    });
+
+    it('should return status 204, and delete the stream from the db', async () => {
+      server.login(host);
+      const stream = await server.db.Streams.insertOne({
+        arn: 'arn_123',
+        createdBy: host.id,
+      });
+      const res = await server.exec.delete(`/api/stream/${stream.insertedId}`);
+
+      const notFoundStream = await server.db.Streams.findOne({ _id: stream.insertedId });
+
+      expect(res.status).toBe(204);
+      expect(notFoundStream).toBeFalsy();
     });
   });
 });
