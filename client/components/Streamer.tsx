@@ -28,11 +28,9 @@ async function handlePermissions() {
 }
 
 const Streamer: React.FC = () => {
-  const [id, setId] = React.useState('none');
   //TODO: Save streamId for chatrooms
   const createStream = async () => {
     const response = await axios.post<StartStreamResponse>('/api/stream/');
-    setId(response.data.streamId);
     // TODO: Save streamInfo to localhost for host to retrive their ongoing stream
     onStart(response.data);
   };
@@ -40,7 +38,6 @@ const Streamer: React.FC = () => {
     //stop broadcast
     clientRef.current?.delete();
     await axios.delete('/api/stream/');
-    setId('none');
   };
 
   const clientRef = React.useRef<AmazonIVSBroadcastClient | null>(null);
@@ -99,7 +96,6 @@ const Streamer: React.FC = () => {
       <button onClick={createStream}>Stream</button>
       <canvas ref={canvasRef}></canvas>
       <button onClick={endStream}>End Stream</button>
-      <div>Stream id: {id}</div>
     </>
   );
 };

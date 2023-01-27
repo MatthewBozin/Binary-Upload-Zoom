@@ -4,6 +4,8 @@ import wasmBinaryPath from 'amazon-ivs-player/dist/assets/amazon-ivs-wasmworker.
 import axios from 'axios';
 import React from 'react';
 
+//TODO: handle "transcode_does_not_exist" error
+
 const Viewer: React.FC = () => {
   const outputRef = React.useRef<HTMLVideoElement | null>(null);
   console.log(IVSPlayer);
