@@ -38,10 +38,14 @@ export const getStream: RequestHandler = async (req, res) => {
 };
 
 export const deleteStream: RequestHandler = async (req, res) => {
-  const stream = await req.db.Streams.findOne({ _id:  new ObjectId(req.params.id) });
+  const stream = await req.db.Streams.findOne({ createdBy: req.user.id });
+
+  if (!stream) {
+    throw new BadRequestError('There is no active stream');
+  }
 
   await endStream(stream.arn);
-  await req.db.Streams.findOneAndDelete({ _id: new ObjectId(req.params.id) });
+  await req.db.Streams.findOneAndDelete({ _id: stream._id });
 
   res.status(204);
 };

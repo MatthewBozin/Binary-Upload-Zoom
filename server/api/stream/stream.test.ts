@@ -121,13 +121,13 @@ describe('stream router', () => {
 
     it('should error if the user is not a host', async () => {
       server.login(viewer);
-      const res = await server.exec.post('/api/stream');
+      const res = await server.exec.delete('/api/stream');
       expect(res.status).toBe(403);
     });
 
-    it('should error if params is not an ObjectId', async () => {
+    it('should error if there is no active stream', async () => {
       server.login(host);
-      const res = await server.exec.delete('/api/stream/1234');
+      const res = await server.exec.delete('/api/stream/');
       expect(res.status).toBe(400);
     });
 
@@ -137,7 +137,7 @@ describe('stream router', () => {
         arn: 'arn_123',
         createdBy: host.id,
       });
-      const res = await server.exec.delete(`/api/stream/${stream.insertedId}`);
+      const res = await server.exec.delete('/api/stream/');
 
       const notFoundStream = await server.db.Streams.findOne({ _id: stream.insertedId });
 
@@ -153,13 +153,13 @@ describe('stream router', () => {
       expect(res.status).toBe(401);
     });
 
-    it ('should error if param is not an ObjectId', async () => {
+    it('should error if param is not an ObjectId', async () => {
       server.login(host);
       const res = await server.exec.get('/api/stream/1234');
       expect(res.status).toBe(400);
     });
 
-    it ('should error if channel cannot be found', async () => {
+    it('should error if channel cannot be found', async () => {
       server.login(host);
       const res = await server.exec.get(`/api/stream/${new ObjectId()}`);
       expect(res.status).toBe(404);
