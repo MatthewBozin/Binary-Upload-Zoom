@@ -37,7 +37,6 @@ export async function getStreamInfo(channelArn: string) {
   const channelCommand = new GetChannelCommand({ arn: channelArn });
   const streamKeyCommand = new ListStreamKeysCommand({ channelArn });
 
-
   const [channel, streamKeyResponse] = await Promise.all([
     client.send(channelCommand),
     client.send(streamKeyCommand),
