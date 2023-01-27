@@ -125,7 +125,7 @@ describe('stream router', () => {
       expect(res.status).toBe(403);
     });
 
-    it('should error there is no active stream', async () => {
+    it('should error if there is no active stream', async () => {
       server.login(host);
       const res = await server.exec.delete('/api/stream/');
       expect(res.status).toBe(400);
