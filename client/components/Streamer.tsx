@@ -15,7 +15,7 @@ async function handlePermissions() {
       track.stop();
     }
     permissions = { video: true, audio: true };
-  } catch (err: any) {
+  } catch (err) {
     permissions = { video: true, audio: false };
     console.error(err.message);
   }
@@ -28,16 +28,19 @@ async function handlePermissions() {
 }
 
 const Streamer: React.FC = () => {
+  const [id, setId] = React.useState('none');
   //TODO: Save streamId for chatrooms
   const createStream = async () => {
     const response = await axios.post<StartStreamResponse>('/api/stream/');
-    // TODO: Save streamInfo to locahost for host to retrive their ongoing stream
+    setId(response.data.streamId);
+    // TODO: Save streamInfo to localhost for host to retrive their ongoing stream
     onStart(response.data);
   };
   const endStream = async () => {
     //stop broadcast
-    clientRef.current?.stopBroadcast();
+    clientRef.current?.delete();
     await axios.delete('/api/stream/');
+    setId('none');
   };
 
   const clientRef = React.useRef<AmazonIVSBroadcastClient | null>(null);
@@ -96,6 +99,7 @@ const Streamer: React.FC = () => {
       <button onClick={createStream}>Stream</button>
       <canvas ref={canvasRef}></canvas>
       <button onClick={endStream}>End Stream</button>
+      <div>Stream id: {id}</div>
     </>
   );
 };

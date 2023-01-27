@@ -20,6 +20,7 @@ export const postStream: RequestHandler<void, StartStreamResponse> = async (req,
   const stream = await req.db.Streams.insertOne({
     arn: channel.arn,
     createdBy: req.user.id,
+    playbackUrl: channel.playbackUrl,
   });
 
   res.json({
@@ -36,6 +37,15 @@ export const getStream: RequestHandler = async (req, res) => {
   }
   const info = await getStreamInfo(stream.arn);
   res.json({ playbackUrl: info.channel.channel.playbackUrl });
+};
+
+export const getActiveStream: RequestHandler = async (req, res) => {
+  const stream = await req.db.Streams.findOne();
+  if (stream === null) {
+    throw new NotFoundError('No stream found for provided id.');
+  }
+  console.log(stream);
+  res.json({ playbackUrl: stream.playbackUrl });
 };
 
 export const deleteStream: RequestHandler = async (req, res) => {

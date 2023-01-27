@@ -15,6 +15,7 @@ interface Link {
 
 const baseLinks: Link[] = [
   { label: 'Home', href: '/' },
+  { label: 'SecondPage', href: '/secondPage', external: true },
 ];
 
 const unAuthedLinks: Link[] = [

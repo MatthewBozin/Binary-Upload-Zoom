@@ -1,13 +1,11 @@
-import { Typography } from '@mui/material';
 import React from 'react';
 
-import Example from 'client/components/Example';
+import Viewer from 'client/components/Viewer';
 
 const Something: React.FC = () => {
   return (
     <div>
-      <Example />
-      <Typography>This is the second page.</Typography>
+      <Viewer />
     </div>
   );
 };

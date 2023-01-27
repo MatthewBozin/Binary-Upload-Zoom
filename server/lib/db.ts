@@ -13,6 +13,7 @@ interface AllowedHost {
 interface Stream {
   arn: string;
   createdBy: string;
+  playbackUrl: string;
 }
 
 // Database object modeling mongoDB data

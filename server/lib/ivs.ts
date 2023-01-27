@@ -26,7 +26,7 @@ export async function startStream() {
     name: 'test',
     latencyMode: 'NORMAL',
     type: 'STANDARD',
-    authorized: true,
+    authorized: false,
   });
   const response = await client.send(command);
   return response;
