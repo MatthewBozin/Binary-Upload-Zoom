@@ -1,6 +1,9 @@
 import { MongoClient } from 'mongodb';
 
 import log from './log';
+import { validateEnv } from './validate';
+
+validateEnv(['DB_STRING']);
 
 interface AllowedHost {
   discordId: string;

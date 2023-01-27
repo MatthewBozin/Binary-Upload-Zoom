@@ -7,6 +7,10 @@ import {
   ListStreamKeysCommand,
 } from '@aws-sdk/client-ivs';
 
+import { validateEnv } from './validate';
+
+validateEnv(['AWS_ACCESS_KEY', 'AWS_SECRET_KEY']);
+
 const client = new IvsClient({
   region: 'us-west-2',
   credentials: {
@@ -32,7 +36,6 @@ export async function startStream() {
 export async function getStreamInfo(channelArn: string) {
   const channelCommand = new GetChannelCommand({ arn: channelArn });
   const streamKeyCommand = new ListStreamKeysCommand({ channelArn });
-
 
   const [channel, streamKeyResponse] = await Promise.all([
     client.send(channelCommand),
