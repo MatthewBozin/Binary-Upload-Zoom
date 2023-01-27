@@ -3,6 +3,10 @@ import jwt from 'jsonwebtoken';
 
 import { User } from 'shared/user';
 
+import { validateEnv } from './validate';
+
+validateEnv(['AUTH_SECRET', 'DISCORD_CLIENT_ID', 'DISCORD_CLIENT_SECRET', 'REDIRECT_URI']);
+
 export function validateToken(token: string) {
   let valid;
   try {

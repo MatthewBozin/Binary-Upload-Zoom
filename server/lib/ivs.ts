@@ -7,6 +7,10 @@ import {
   ListStreamKeysCommand,
 } from '@aws-sdk/client-ivs';
 
+import { validateEnv } from './validate';
+
+validateEnv(['AWS_ACCESS_KEY', 'AWS_SECRET_KEY']);
+
 const client = new IvsClient({
   region: 'us-west-2',
   credentials: {
