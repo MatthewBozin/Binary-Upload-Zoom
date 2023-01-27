@@ -32,6 +32,8 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.4",
     "@types/express": "^4.17.15",
+    "amazon-ivs-player": "^1.16.0",
+    "amazon-ivs-web-broadcast": "^1.2.0",
     "axios": "^1.2.3",
     "concurrently": "^7.6.0",
     "cookie-parser": "^1.4.6",

@@ -18,7 +18,7 @@ export const login: RequestHandler<void, void, { code: string }> = async (req, r
     const info = await getDiscordUserAndGuilds(code);
     user = info.user;
   } catch (err) {
-    log('Errored when attempting to use discord OAuth', err);
+    log('Errored when attempting to use discord OAuth', err.response);
     return res.sendStatus(500);
   }
 

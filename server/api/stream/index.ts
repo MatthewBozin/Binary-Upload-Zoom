@@ -10,8 +10,12 @@ streamRouter.use(isAuthed());
 
 // just / is more restful because endpoint will look like: POST /api/stream/
 // (which is descriptive enough)
-streamRouter.post('/', isHost(), postStream);
+// streamRouter.post('/', isHost(), postStream);
+streamRouter.post('/', postStream);
 streamRouter.get('/:id', validateMongoObjectId('params', 'id'), getStream);
 streamRouter.delete('/', isHost(), deleteStream);
+
+//TODO: get stream for current host, so host can jump back into their stream
+//TODO: provide playbackurl for currently playing stream
 
 export default streamRouter;

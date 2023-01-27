@@ -3,8 +3,9 @@ import { RequestHandler } from 'express';
 import { BadRequestError, NotFoundError } from 'express-response-errors';
 
 import { getStreamInfo, endStream, startStream } from 'server/lib/ivs';
+import { StartStreamResponse } from 'shared/http';
 
-export const postStream: RequestHandler = async (req, res) => {
+export const postStream: RequestHandler<void, StartStreamResponse> = async (req, res) => {
   const existing = await req.db.Streams.findOne({
     createdBy: req.user.id,
   });
@@ -24,7 +25,7 @@ export const postStream: RequestHandler = async (req, res) => {
   res.json({
     ingestEndpoint: channel.ingestEndpoint,
     streamKey: streamKey.value,
-    streamId: stream.insertedId,
+    streamId: String(stream.insertedId),
   });
 };
 
