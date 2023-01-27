@@ -12,6 +12,6 @@ streamRouter.use(isAuthed());
 // (which is descriptive enough)
 streamRouter.post('/', isHost(), postStream);
 streamRouter.get('/:id', validateMongoObjectId('params', 'id'), getStream);
-streamRouter.delete('/:id', validateMongoObjectId('params', 'id'), isHost(), deleteStream);
+streamRouter.delete('/', isHost(), deleteStream);
 
 export default streamRouter;
