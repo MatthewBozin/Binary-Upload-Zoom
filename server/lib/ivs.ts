@@ -5,6 +5,7 @@ import {
   GetChannelCommand,
   GetStreamKeyCommand,
   ListStreamKeysCommand,
+  StopStreamCommand,
 } from '@aws-sdk/client-ivs';
 
 import { validateEnv } from './validate';
@@ -55,7 +56,9 @@ export async function getStreamInfo(channelArn: string) {
 
 // deletes a channel which should also delete a stream key
 export async function endStream(arn: string) {
-  const command = new DeleteChannelCommand({ arn });
+  //stop the stream
+  const command = new StopStreamCommand({ channelArn: arn });
+  //const command = new DeleteChannelCommand({ arn });
   const response = await client.send(command);
   return response;
 }

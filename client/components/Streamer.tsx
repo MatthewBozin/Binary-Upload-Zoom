@@ -36,7 +36,15 @@ const Streamer: React.FC = () => {
   };
   const endStream = async () => {
     //stop broadcast
-    clientRef.current?.delete();
+    //Causes this error
+    //ConflictException: Unable to perform: ivs:DeleteChannel while resource: arn:{channel arn here} is live
+
+    //no more channel deletion?
+
+    //this delete function should happen first
+    //this is what makes the stream not 'live'
+    //clientRef.current?.delete();
+    //this await call
     await axios.delete('/api/stream/');
   };
 
