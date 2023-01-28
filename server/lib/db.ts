@@ -14,6 +14,8 @@ interface Stream {
   arn: string;
   createdBy: string;
   playbackUrl: string;
+  ingestEndpoint: string;
+  streamKey: string;
 }
 
 // Database object modeling mongoDB data

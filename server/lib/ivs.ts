@@ -1,7 +1,6 @@
 import {
   IvsClient,
   CreateChannelCommand,
-  DeleteChannelCommand,
   GetChannelCommand,
   GetStreamKeyCommand,
   ListStreamKeysCommand,
@@ -22,7 +21,6 @@ const client = new IvsClient({
 
 // creates a channel, creates a stream key, returns info for both
 export async function startStream() {
-  // todo
   const command = new CreateChannelCommand({
     name: 'test',
     latencyMode: 'NORMAL',
@@ -54,11 +52,9 @@ export async function getStreamInfo(channelArn: string) {
   };
 }
 
-// deletes a channel which should also delete a stream key
 export async function endStream(arn: string) {
   //stop the stream
   const command = new StopStreamCommand({ channelArn: arn });
-  //const command = new DeleteChannelCommand({ arn });
   const response = await client.send(command);
   return response;
 }

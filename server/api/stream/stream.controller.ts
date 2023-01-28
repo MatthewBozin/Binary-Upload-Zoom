@@ -2,14 +2,10 @@ import { ObjectId } from 'bson';
 import { RequestHandler } from 'express';
 import { BadRequestError, NotFoundError } from 'express-response-errors';
 
-import { getStreamInfo, endStream, startStream } from 'server/lib/ivs';
+import { getStreamInfo, endStream } from 'server/lib/ivs';
 import { StartStreamResponse } from 'shared/http';
 
 export const postStream: RequestHandler<void, StartStreamResponse> = async (req, res) => {
-  // const existing = await req.db.Streams.findOne({
-  //   createdBy: req.user.id,
-  // });
-
   const stream = await req.db.Streams.findOne();
 
   if (stream) {
@@ -19,25 +15,6 @@ export const postStream: RequestHandler<void, StartStreamResponse> = async (req,
       streamId: String(stream._id),
     });
   }
-
-  // if (existing) {
-  //   throw new BadRequestError('You already have a stream running');
-  // }
-
-  //const { channel, streamKey } = await startStream();
-
-  //object returned contains insertedId param, consumed below
-  // const stream = await req.db.Streams.insertOne({
-  //   arn: channel.arn,
-  //   createdBy: req.user.id,
-  //   playbackUrl: channel.playbackUrl,
-  // });
-
-  // res.json({
-  //   ingestEndpoint: channel.ingestEndpoint,
-  //   streamKey: streamKey.value,
-  //   streamId: String(stream.insertedId),
-  // });
 };
 
 export const getStream: RequestHandler = async (req, res) => {
@@ -54,7 +31,6 @@ export const getActiveStream: RequestHandler = async (req, res) => {
   if (stream === null) {
     throw new NotFoundError('No stream found for provided id.');
   }
-  console.log(stream);
   res.json({ playbackUrl: stream.playbackUrl });
 };
 
@@ -66,7 +42,6 @@ export const deleteStream: RequestHandler = async (req, res) => {
   }
 
   await endStream(stream.arn);
-  //await req.db.Streams.findOneAndDelete({ _id: stream._id });
 
   res.status(204);
 };

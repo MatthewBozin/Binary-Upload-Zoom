@@ -1,9 +1,8 @@
 import { AsyncRouter } from 'express-async-router';
 
 import { isAuthed, isHost } from 'server/middleware/isAuthed';
-import { validateMongoObjectId } from 'server/middleware/validateMongoObjectId';
 
-import { postStream, getStream, deleteStream, getActiveStream } from './stream.controller';
+import { postStream, deleteStream, getActiveStream } from './stream.controller';
 const streamRouter = AsyncRouter();
 //applies isAuthed() to all routes
 streamRouter.use(isAuthed());
@@ -12,8 +11,7 @@ streamRouter.use(isAuthed());
 // (which is descriptive enough)
 // streamRouter.post('/', isHost(), postStream);
 streamRouter.post('/', postStream);
-//streamRouter.get('/:id', getStream);
-streamRouter.get('/stream', getActiveStream);
+streamRouter.get('/', getActiveStream);
 streamRouter.delete('/', isHost(), deleteStream);
 
 //TODO: get stream for current host, so host can jump back into their stream

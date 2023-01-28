@@ -8,11 +8,10 @@ import React from 'react';
 
 const Viewer: React.FC = () => {
   const outputRef = React.useRef<HTMLVideoElement | null>(null);
-  console.log(IVSPlayer);
 
   const joinBroadcast = async () => {
     if (IVSPlayer.isPlayerSupported) {
-      const response = await axios.get('/api/stream/stream');
+      const response = await axios.get('/api/stream/');
       const player = IVSPlayer.create({
         wasmBinary: '/assets/amazon-ivs-wasmworker.min.wasm',
         wasmWorker: '/assets/amazon-ivs-wasmworker.min.js',
