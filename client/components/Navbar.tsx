@@ -23,6 +23,7 @@ const unAuthedLinks: Link[] = [
 
 const authedLinks: Link[] = [
   { label: 'Protected', href: '/protected' },
+  { label: 'Zoom', href: '/zoomPage' },
   { label: 'Logout', href: '/logout' },
 ];
 

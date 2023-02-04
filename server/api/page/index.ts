@@ -6,6 +6,6 @@ const pageRouter = AsyncRouter();
 
 pageRouter.get('/login', login);
 
-export const PROTECTED_ROUTES = ['/protected'];
+export const PROTECTED_ROUTES = ['/protected', '/zoomPage'];
 
 export default pageRouter;
