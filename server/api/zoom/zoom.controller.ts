@@ -3,6 +3,7 @@ import { KJUR } from 'jsrsasign'; //does not have types
 //this has typescript support https://www.npmjs.com/package/jwt-hs256
 
 export const getZoomSignature: RequestHandler = (req, res) => {
+  console.log(req.body);
   const initialized = Math.round(new Date().getTime() / 1000) - 30;
   const expires = initialized + 60 * 60 * 2;
   const header = JSON.stringify({ alg: 'HS256', typ: 'JWT'});
