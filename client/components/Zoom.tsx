@@ -11,16 +11,16 @@ ZoomMtg.i18n.reload('en-US');
 const Zoom: React.FC = () => {
 
   //replace with meeting number from zoom meeting
-  const meetingNumber = 99999999999;
+  const meetingNumber = 83269283159;
+
+  //https://us05web.zoom.us/j/83269283159?pwd=dVVOVUhqMXNaQTN6VUlxSlhZZUt3QT09
 
   //'passWord' field accepts either 'pwd' field from meeting link
   //or 'Passcode' from meeting invite
   //if this is left blank, will bring up a prompt for Passcode
-  const passWord = '';
+  const passWord = 'dVVOVUhqMXNaQTN6VUlxSlhZZUt3QT09';
 
-  const getSignature = async (e) => {
-    console.log('getting signature');
-    e.preventDefault();
+  const getSignature = async () => {
     const msg = {
       meetingNumber,
       role: 0,
@@ -29,14 +29,12 @@ const Zoom: React.FC = () => {
     await startMeeting(response.data.signature);
   };
 
-  const startMeeting = async (signature) => {
+  const startMeeting = async (signature: string) => {
     document.getElementById('zmmtg-root').style.display = 'block';
 
     ZoomMtg.init({
       leaveUrl: 'http://localhost:2121',
-      success: (success) => {
-        console.log(success);
-
+      success: () => {
         ZoomMtg.join({
           signature: signature,
           meetingNumber,
@@ -45,16 +43,16 @@ const Zoom: React.FC = () => {
           userEmail: '',
           passWord,
           tk: '',
-          success: (success) => {
+          success: (success: void) => {
             console.log(success);
           },
-          error: (error) => {
+          error: (error: void) => {
             console.log(error);
           },
         });
 
       },
-      error: (error) => {
+      error: (error: void) => {
         console.log(error);
       },
     });
